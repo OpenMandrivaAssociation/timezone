@@ -39,7 +39,7 @@ Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
 Patch2:		tzdata-tzcode2006a.patch
 BuildRequires:	gawk, perl
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 This package contains data files with rules for various timezones
@@ -74,27 +74,27 @@ EOF
 grep -v tz-art.htm tzcode%{tzcode_version}/tz-link.htm > tzcode%{tzcode_version}/tz-link.html
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 make install
 
 # nuke unpackaged files
-rm -f $RPM_BUILD_ROOT%{_sysconfdir}/localtime
+rm -f %{buildroot}%{_sysconfdir}/localtime
 
 # install man pages
 %if %{build_manpages}
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/man8
+mkdir -p %{buildroot}%{_mandir}/man8
 for f in zic zdump; do
-install -m 644 tzcode*/$f.8 $RPM_BUILD_ROOT%{_mandir}/man8/
+install -m 644 tzcode*/$f.8 %{buildroot}%{_mandir}/man8/
 done
 %endif
 
 # install update-localtime script
-mkdir -p $RPM_BUILD_ROOT%{_sbindir}
-install -m 755 %{SOURCE3} $RPM_BUILD_ROOT%{_sbindir}/update-localtime
+mkdir -p %{buildroot}%{_sbindir}
+install -m 755 %{SOURCE3} %{buildroot}%{_sbindir}/update-localtime
 perl -pi -e 's|\@datadir\@|%{_datadir}|;' \
 	 -e 's|\@sysconfdir\@|%{_sysconfdir}|' \
-	$RPM_BUILD_ROOT%{_sbindir}/update-localtime
+	%{buildroot}%{_sbindir}/update-localtime
 
 %check
 echo ====================TESTING=========================
