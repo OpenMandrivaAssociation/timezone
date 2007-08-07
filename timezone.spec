@@ -2,20 +2,13 @@
 %define name	timezone
 %define epoch	6
 %define version	2007f
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 %define tzdata_version %{version}
 %define tzcode_version %{version}
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
-
-# don't use new TZ format yet (zic & zdump from glibc 2.4.90)
-# XXX update after 2007.1 release, for all past releases too?
-%define new_format 0
-%if %{mdkversion} > 200710
-%define new_format 1
-%endif
 
 # define glibc mininmal version which drops /etc/localtime
 # XXX update for older distributions here
@@ -37,7 +30,6 @@ Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_version}.tar.bz2
 Source3:	update-localtime.sh
 Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
-Patch2:		tzdata-tzcode2006a.patch
 BuildRequires:	gawk, perl
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -54,11 +46,6 @@ tar xjf %{SOURCE2} -C tzcode%{tzcode_version}
 
 %patch0 -p1 -b .mdvconfig
 %patch1 -p0 -b .extra-tz-links
-%if ! %{new_format}
-cd tzcode%{tzcode_version}
-%patch2 -p2 -b .tzcode2006a
-cd ..
-%endif
 
 ln -s Makeconfig.in Makeconfig
 cat > config.mk << EOF
