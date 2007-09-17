@@ -1,8 +1,8 @@
 # RH 2007c-1.fc6
 %define name	timezone
 %define epoch	6
-%define version	2007f
-%define release	%mkrel 2
+%define version	2007g
+%define release	%mkrel 1
 
 %define tzdata_version %{version}
 %define tzcode_version %{version}
@@ -25,8 +25,8 @@ License:	GPL
 Group:		System/Base
 Conflicts:	glibc < 6:2.2.5-6mdk
 Source0:	tzdata-base-0.tar.bz2
-Source1:	ftp://elsie.nci.nih.gov/pub/tzdata%{tzdata_version}.tar.bz2
-Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_version}.tar.bz2
+Source1:	ftp://elsie.nci.nih.gov/pub/tzdata%{tzdata_version}.tar.gz
+Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_version}.tar.gz
 Source3:	update-localtime.sh
 Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
@@ -40,12 +40,12 @@ around the world.
 %prep
 %setup -q -n tzdata
 mkdir tzdata%{tzdata_version}
-tar xjf %{SOURCE1} -C tzdata%{tzdata_version}
+tar xzf %{SOURCE1} -C tzdata%{tzdata_version}
 mkdir tzcode%{tzcode_version}
-tar xjf %{SOURCE2} -C tzcode%{tzcode_version}
+tar xzf %{SOURCE2} -C tzcode%{tzcode_version}
 
 %patch0 -p1 -b .mdvconfig
-%patch1 -p0 -b .extra-tz-links
+%patch1 -p1 -b .extra-tz-links
 
 ln -s Makeconfig.in Makeconfig
 cat > config.mk << EOF
