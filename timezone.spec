@@ -1,7 +1,6 @@
-# RH 2007c-1.fc6
 %define name	timezone
 %define epoch	6
-%define version	2007g
+%define version	2007h
 %define release	%mkrel 2
 
 %define tzdata_version %{version}
@@ -30,7 +29,6 @@ Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_version}.tar.gz
 Source3:	update-localtime.sh
 Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
-Patch2:		tzdata-2007g_Brazil_2007_2008.patch
 BuildRequires:	gawk, perl
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -47,7 +45,6 @@ tar xzf %{SOURCE2} -C tzcode%{tzcode_version}
 
 %patch0 -p1 -b .mdvconfig
 %patch1 -p1 -b .extra-tz-links
-%patch2 -p1 -b .2007g_Brazil_2007_2008
 
 ln -s Makeconfig.in Makeconfig
 cat > config.mk << EOF
