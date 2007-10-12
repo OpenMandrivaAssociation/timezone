@@ -1,7 +1,7 @@
 %define name	timezone
 %define epoch	6
 %define version	2007h
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 %define tzdata_version %{version}
 %define tzcode_version %{version}
@@ -26,15 +26,28 @@ Conflicts:	glibc < 6:2.2.5-6mdk
 Source0:	tzdata-base-0.tar.bz2
 Source1:	ftp://elsie.nci.nih.gov/pub/tzdata%{tzdata_version}.tar.gz
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_version}.tar.gz
-Source3:	update-localtime.sh
+Source3:	javazic.tar.gz
+Source4:	update-localtime.sh
 Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
+Patch2:		javazic-fixup.patch
+Provides:	tzdata = %{version}-%{release}
 BuildRequires:	gawk, perl
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 This package contains data files with rules for various timezones
 around the world.
+
+%package java
+Summary:	Timzeone data for Java
+Group:		System/Base
+Provides:	tzdata-java = %{version}-%{release}
+BuildRequires:	jpackage-utils
+BuildRequires:	java-devel-gcj
+
+%description java
+This package contains timezone information for use by Java runtimes.
 
 %prep
 %setup -q -n tzdata
@@ -55,14 +68,45 @@ install_root = %{buildroot}
 sysdep-CFLAGS = %{optflags}
 EOF
 
+mkdir javazic
+tar xf %{SOURCE3} -C javazic
+pushd javazic
+%patch2 -p0 -b .javazic-fixup
+
+# Hack alert! sun.tools may be defined and installed in the
+# VM. In order to guarantee that we are using IcedTea/OpenJDK
+# for creating the zoneinfo files, rebase all the packages
+# from "sun." to "rht.". Unfortunately, gcj does not support
+# any of the -Xclasspath options, so we must go this route
+# to ensure the greatest compatibility.
+mv sun rht
+for f in `find . -name '*.java'`; do
+        sed -i -e 's:sun\.tools\.:rht.tools.:g'\
+               -e 's:sun\.util\.:rht.util.:g' $f
+done
+popd
+
 %build
 %make
 grep -v tz-art.htm tzcode%{tzcode_version}/tz-link.htm > tzcode%{tzcode_version}/tz-link.html
+
+pushd javazic
+%{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
+popd
+pushd tzdata%{tzcode_version}
+%{java} -classpath ../javazic/ rht.tools.javazic.Main -V %{version} \
+  -d ../zoneinfo/java \
+  africa antarctica asia australasia europe northamerica pacificnew \
+  southamerica backward etcetera solar87 solar88 solar89 systemv \
+  ../javazic/tzdata_jdk/gmt ../javazic/tzdata_jdk/jdk11_backward
+popd
 
 %install
 rm -rf %{buildroot}
 
 make install
+
+cp -a zoneinfo/java $RPM_BUILD_ROOT%{_datadir}/javazi
 
 # nuke unpackaged files
 rm -f %{buildroot}%{_sysconfdir}/localtime
@@ -77,7 +121,7 @@ done
 
 # install update-localtime script
 mkdir -p %{buildroot}%{_sbindir}
-install -m 755 %{SOURCE3} %{buildroot}%{_sbindir}/update-localtime
+install -m 755 %{SOURCE4} %{buildroot}%{_sbindir}/update-localtime
 perl -pi -e 's|\@datadir\@|%{_datadir}|;' \
 	 -e 's|\@sysconfdir\@|%{_sysconfdir}|' \
 	%{buildroot}%{_sbindir}/update-localtime
@@ -112,3 +156,7 @@ rm -rf %{buildroot}
 %endif
 %dir %{_datadir}/zoneinfo
 %{_datadir}/zoneinfo/*
+
+%files java
+%defattr(-,root,root)
+%{_datadir}/javazi
