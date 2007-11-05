@@ -1,19 +1,13 @@
 %define name	timezone
 %define epoch	6
-%define version	2007h
-%define release	%mkrel 2
+%define version	2007i
+%define release	%mkrel 1
 
 %define tzdata_version %{version}
-%define tzcode_version %{version}
+%define tzcode_version 2007h
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
-
-# define glibc mininmal version which drops /etc/localtime
-# XXX update for older distributions here
-%if %{mdkversion} >= 200710
-%define glibc_min_version 6:2.4-%{mkrel 8}
-%endif
 
 Summary:	Timezone data
 Name:		%{name}
@@ -93,7 +87,7 @@ grep -v tz-art.htm tzcode%{tzcode_version}/tz-link.htm > tzcode%{tzcode_version}
 pushd javazic
 %{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
 popd
-pushd tzdata%{tzcode_version}
+pushd tzdata%{tzdata_version}
 %{java} -classpath ../javazic/ rht.tools.javazic.Main -V %{version} \
   -d ../zoneinfo/java \
   africa antarctica asia australasia europe northamerica pacificnew \
@@ -131,13 +125,13 @@ echo ====================TESTING=========================
 make check
 echo ====================TESTING END=====================
 
-%post -p %{_sbindir}/update-localtime
-
 # XXX next glibc updates are expected to remove /etc/localtime
-%triggerpostun -- glibc %{?glibc_min_version:< %{glibc_min_version}}
+%triggerpostun -- glibc < 6:2.4-8mdv2007.1
 if [ ! -f %{_sysconfdir}/localtime ]; then
   %{_sbindir}/update-localtime
 fi
+
+%post -p %{_sbindir}/update-localtime
 
 %clean
 rm -rf %{buildroot}
