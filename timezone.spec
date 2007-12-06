@@ -1,10 +1,10 @@
 %define name	timezone
 %define epoch	6
-%define version	2007i
+%define version	2007j
 %define release	%mkrel 1
 
 %define tzdata_version %{version}
-%define tzcode_version 2007h
+%define tzcode_version %{version}
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
@@ -34,7 +34,7 @@ This package contains data files with rules for various timezones
 around the world.
 
 %package java
-Summary:	Timzeone data for Java
+Summary:	Timezone data for Java
 Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
 BuildRequires:	jpackage-utils
