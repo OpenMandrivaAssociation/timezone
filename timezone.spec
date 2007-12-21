@@ -27,6 +27,7 @@ Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
 Provides:	tzdata = %{version}-%{release}
 BuildRequires:	gawk, perl
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 This package contains data files with rules for various timezones
