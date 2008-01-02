@@ -1,6 +1,6 @@
 %define name	timezone
 %define epoch	6
-%define version	2007j
+%define version	2007k
 %define release	%mkrel 2
 
 %define tzdata_version %{version}
@@ -38,7 +38,6 @@ Summary:	Timezone data for Java
 Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
 BuildRequires:	java-rpmbuild
-BuildRequires:	java-devel-gcj
 
 %description java
 This package contains timezone information for use by Java runtimes.
