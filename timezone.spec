@@ -1,7 +1,7 @@
 %define name	timezone
 %define epoch	6
 %define version	2008b
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 %define tzdata_version %{version}
 %define tzcode_version 2008a
@@ -78,6 +78,32 @@ for f in `find . -name '*.java'`; do
                -e 's:sun\.util\.:rht.util.:g' $f
 done
 popd
+
+# Create zone.info entries for deprecated zone names (#40184)
+pushd tzdata%{tzdata_version}
+	chmod +w zone.tab
+	echo -e "\n# zone info for backward zone names" >> zone.tab
+	cat backward | grep Link | while read link curr old; do
+		if [ -z "$curr" -o -z "$old" ]; then
+			echo "Error processing backward entry for zone.tab"
+			exit 1
+		fi
+		cat zone.tab | grep -v '^#' | grep "$curr" | \
+		    while read l; do
+			if [ "`echo \"$l\" | awk 'BEGIN { FS = \"[\t]\" } \
+			       { print $3 }'`" = "$curr" ]; then
+				echo "$l" | sed "s|$curr|$old|" >> zone.tab \
+					|| echo ERROR >> zone.tab
+			else
+				echo ERROR >> zone.tab
+			fi
+		done
+	done
+popd
+if grep -q "^ERROR" tzdata%{tzdata_version}/zone.tab; then
+	echo "Error adding backward entries to zone.tab"
+	exit 1
+fi
 
 %build
 %make
