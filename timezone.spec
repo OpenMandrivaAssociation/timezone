@@ -82,28 +82,24 @@ popd
 # Create zone.info entries for deprecated zone names (#40184)
 pushd tzdata%{tzdata_version}
 	chmod +w zone.tab
-	echo -e "\n# zone info for backward zone names" >> zone.tab
-	cat backward | grep Link | while read link curr old; do
-		if [ -z "$curr" -o -z "$old" ]; then
-			echo "Error processing backward entry for zone.tab"
-			exit 1
-		fi
-		cat zone.tab | grep -v '^#' | grep "$curr" | \
-		    while read l; do
-			if [ "`echo \"$l\" | awk 'BEGIN { FS = \"[\t]\" } \
-			       { print $3 }'`" = "$curr" ]; then
-				echo "$l" | sed "s|$curr|$old|" >> zone.tab \
-					|| echo ERROR >> zone.tab
-			else
-				echo ERROR >> zone.tab
-			fi
-		done
-	done
+	echo -e '\n# zone info for backward zone names' > zone.tab.new
+	while read link cur old x; do
+		case $link-${cur+cur}-${old+old}${x:+X} in
+		Link-cur-old)
+			awk -v cur="$cur" -v old="$old" \
+				'!/^#/ && $3 == cur { sub(cur,old); print }' \
+				zone.tab || echo ERROR ;;
+		Link-*)
+			echo 'Error processing backward entry for zone.tab'
+			exit 1 ;;
+		esac
+	done < backward >> zone.tab.new
+	if grep -q '^ERROR' zone.tab.new || ! cat zone.tab.new >> zone.tab; then
+		echo "Error adding backward entries to zone.tab"
+		exit 1
+	fi
+	rm -f zone.tab.new
 popd
-if grep -q "^ERROR" tzdata%{tzdata_version}/zone.tab; then
-	echo "Error adding backward entries to zone.tab"
-	exit 1
-fi
 
 %build
 %make
