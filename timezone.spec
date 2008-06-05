@@ -82,7 +82,7 @@ popd
 # Create zone.info entries for deprecated zone names (#40184)
 pushd tzdata%{tzdata_version}
 	chmod +w zone.tab
-	echo -e '\n# zone info for backward zone names' > zone.tab.new
+	echo '# zone info for backward zone names' > zone.tab.new
 	while read link cur old x; do
 		case $link-${cur+cur}-${old+old}${x:+X} in
 		Link-cur-old)
