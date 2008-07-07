@@ -1,6 +1,6 @@
 %define name	timezone
 %define epoch	6
-%define version	2008c
+%define version	2008d
 %define release	%mkrel 1
 
 %define tzdata_version %{version}
@@ -58,7 +58,8 @@ objpfx = `pwd`/obj/
 sbindir = %{_sbindir}
 datadir = %{_datadir}
 install_root = %{buildroot}
-sysdep-CFLAGS = %{optflags}
+# Workaround gcc 4.3 bug, don't use -O2 optimization flag (#41246)
+sysdep-CFLAGS = %(echo %{optflags} | sed 's/-O2/-O1/')
 EOF
 
 mkdir javazic
