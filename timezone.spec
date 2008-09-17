@@ -1,10 +1,10 @@
 %define name	timezone
 %define epoch	6
-%define version	2008e
+%define version	2008f
 %define release	%mkrel 1
 
 %define tzdata_version %{version}
-%define tzcode_version %{version}
+%define tzcode_version 2008e
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
@@ -25,6 +25,7 @@ Source4:	update-localtime.sh
 Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
+Patch3:		tzdata-brazil-decree-6558.patch
 Provides:	tzdata = %{version}-%{release}
 BuildRequires:	gawk, perl
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
@@ -51,6 +52,7 @@ tar xzf %{SOURCE2} -C tzcode%{tzcode_version}
 
 %patch0 -p1 -b .mdvconfig
 %patch1 -p1 -b .extra-tz-links
+%patch3 -p1 -b .brazil-decree-6558
 
 ln -s Makeconfig.in Makeconfig
 cat > config.mk << EOF
