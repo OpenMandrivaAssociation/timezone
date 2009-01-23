@@ -1,10 +1,10 @@
 %define name	timezone
 %define epoch	6
-%define version	2008i
+%define version	2009a
 %define release	%mkrel 1
 
 %define tzdata_version %{version}
-%define tzcode_version 2008h
+%define tzcode_version %{version}
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
@@ -58,8 +58,6 @@ objpfx = `pwd`/obj/
 sbindir = %{_sbindir}
 datadir = %{_datadir}
 install_root = %{buildroot}
-# Workaround gcc 4.3 bug, don't use -O2 optimization flag (#41246)
-sysdep-CFLAGS = %(echo %{optflags} | sed 's/-O2/-O1/')
 EOF
 
 mkdir javazic
