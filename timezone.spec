@@ -1,7 +1,7 @@
 %define name	timezone
 %define epoch	6
 %define version	2009a
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 %define tzdata_version %{version}
 %define tzcode_version %{version}
@@ -58,6 +58,7 @@ objpfx = `pwd`/obj/
 sbindir = %{_sbindir}
 datadir = %{_datadir}
 install_root = %{buildroot}
+sysdep-CFLAGS = %{optflags}
 EOF
 
 mkdir javazic
