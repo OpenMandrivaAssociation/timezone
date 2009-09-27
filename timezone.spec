@@ -1,13 +1,18 @@
 %define name	timezone
 %define epoch	6
 %define version	2009m
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 %define tzdata_version %{version}
 %define tzcode_version 2009k
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
+%ifarch %mips %arm
+%define build_java 0
+%else
+%define build_java 1
+%endif
 
 Summary:	Timezone data
 Name:		%{name}
@@ -33,6 +38,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 This package contains data files with rules for various timezones
 around the world.
 
+%if %{build_java}
 %package java
 Summary:	Timezone data for Java
 Group:		System/Base
@@ -41,6 +47,7 @@ BuildRequires:	java-rpmbuild
 
 %description java
 This package contains timezone information for use by Java runtimes.
+%endif
 
 %prep
 %setup -q -n tzdata
@@ -61,6 +68,7 @@ install_root = %{buildroot}
 sysdep-CFLAGS = %{optflags}
 EOF
 
+%if %{build_java}
 mkdir javazic
 tar xf %{SOURCE3} -C javazic
 pushd javazic
@@ -100,11 +108,13 @@ pushd tzdata%{tzdata_version}
 	fi
 	rm -f zone.tab.new
 popd
+%endif
 
 %build
 %make
 grep -v tz-art.htm tzcode%{tzcode_version}/tz-link.htm > tzcode%{tzcode_version}/tz-link.html
 
+%if %{build_java}
 pushd javazic
 %{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
 popd
@@ -115,13 +125,16 @@ pushd tzdata%{tzdata_version}
   southamerica backward etcetera solar87 solar88 solar89 systemv \
   ../javazic/tzdata_jdk/gmt ../javazic/tzdata_jdk/jdk11_backward
 popd
+%endif
 
 %install
 rm -rf %{buildroot}
 
 make install
 
+%if %{build_java}
 cp -a zoneinfo/java $RPM_BUILD_ROOT%{_datadir}/javazi
+%endif
 
 # nuke unpackaged files
 rm -f %{buildroot}%{_sysconfdir}/localtime
@@ -172,6 +185,8 @@ rm -rf %{buildroot}
 %dir %{_datadir}/zoneinfo
 %{_datadir}/zoneinfo/*
 
+%if %{build_java}
 %files java
 %defattr(-,root,root)
 %{_datadir}/javazi
+%endif
