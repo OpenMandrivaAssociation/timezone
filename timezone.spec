@@ -1,6 +1,6 @@
 %define name	timezone
 %define epoch	6
-%define version	2010k
+%define version	2010l
 %define release	%mkrel 1
 
 %define tzdata_version %{version}
