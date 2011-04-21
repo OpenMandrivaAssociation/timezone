@@ -1,10 +1,10 @@
 %define name	timezone
 %define epoch	6
-%define version	2010o
+%define version	2011f
 %define release	%mkrel 1
 
 %define tzdata_version %{version}
-%define tzcode_version 2010n
+%define tzcode_version 2011e
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
@@ -57,7 +57,9 @@ mkdir tzcode%{tzcode_version}
 tar xzf %{SOURCE2} -C tzcode%{tzcode_version}
 
 %patch0 -p1 -b .mdvconfig
-%patch1 -p1 -b .extra-tz-links
+pushd tzdata%{tzdata_version}
+%patch1 -p2 -b .extra-tz-links
+popd
 
 ln -s Makeconfig.in Makeconfig
 cat > config.mk << EOF
