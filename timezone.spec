@@ -8,7 +8,7 @@
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
-%ifarch %mips %arm
+%ifarch %mips
 %define build_java 0
 %else
 %define build_java 1
