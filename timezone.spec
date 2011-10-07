@@ -3,7 +3,7 @@
 %define version	2011k
 %define release	%mkrel 1
 
-#%define tzdata_version %{version}
+#define tzdata_version %{version}
 %define tzdata_version 2011j
 %define tzcode_version 2011i
 
