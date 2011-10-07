@@ -1,9 +1,10 @@
 %define name	timezone
 %define epoch	6
-%define version	2011j
+%define version	2011k
 %define release	%mkrel 1
 
-%define tzdata_version %{version}
+#%define tzdata_version %{version}
+%define tzdata_version 2011j
 %define tzcode_version 2011i
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -32,6 +33,9 @@ Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
 Patch3:		iso3166-uk.diff
 Patch4:		tzdata-china.diff
+#this patch make 2011k version
+Patch5:		tzdata-2011j-k.patch
+Patch6:		tzdata-2011j-kemerovo.patch
 Provides:	tzdata = %{version}-%{release}
 BuildRequires:	gawk, perl
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
@@ -64,6 +68,8 @@ pushd tzdata%{tzdata_version}
 popd
 %patch3 -p0
 %patch4 -p0
+%patch5 -p0
+%patch6 -p0
 
 ln -s Makeconfig.in Makeconfig
 cat > config.mk << EOF
