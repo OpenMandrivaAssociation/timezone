@@ -1,7 +1,7 @@
 %define name	timezone
 %define epoch	6
 %define version	2011k
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 #define tzdata_version %{version}
 %define tzdata_version 2011j
@@ -177,7 +177,8 @@ if [ ! -f %{_sysconfdir}/localtime ]; then
   %{_sbindir}/update-localtime
 fi
 
-%post -p %{_sbindir}/update-localtime
+%post
+%{_sbindir}/update-localtime
 
 %clean
 rm -rf %{buildroot}
