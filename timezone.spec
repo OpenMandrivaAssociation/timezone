@@ -1,10 +1,10 @@
 %define name	timezone
 %define epoch	6
-%define version	2011k
-%define release	%mkrel 2
+%define version	2011m
+%define release	%mkrel 1
 
 #define tzdata_version %{version}
-%define tzdata_version 2011j
+%define tzdata_version 2011m
 %define tzcode_version 2011i
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -24,18 +24,13 @@ License:	GPL
 Group:		System/Base
 Conflicts:	glibc < 6:2.2.5-6mdk
 Source0:	tzdata-base-0.tar.bz2
-Source1:	ftp://elsie.nci.nih.gov/pub/tzdata%{tzdata_version}.tar.gz
-Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_version}.tar.gz
+Source1:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
+Source2:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_version}.tar.gz
 Source3:	javazic.tar.gz
 Source4:	update-localtime.sh
 Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
-Patch3:		iso3166-uk.diff
-Patch4:		tzdata-china.diff
-#this patch make 2011k version
-Patch5:		tzdata-2011j-k.patch
-Patch6:		tzdata-2011j-kemerovo.patch
 Provides:	tzdata = %{version}-%{release}
 BuildRequires:	gawk, perl
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
@@ -66,10 +61,6 @@ tar xzf %{SOURCE2} -C tzcode%{tzcode_version}
 pushd tzdata%{tzdata_version}
 %patch1 -p2 -b .extra-tz-links
 popd
-%patch3 -p0
-%patch4 -p0
-%patch5 -p0
-%patch6 -p0
 
 ln -s Makeconfig.in Makeconfig
 cat > config.mk << EOF
