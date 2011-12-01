@@ -136,7 +136,7 @@ rm -rf %{buildroot}
 make install
 
 %if %{build_java}
-cp -a zoneinfo/java $RPM_BUILD_ROOT%{_datadir}/javazi
+cp -a zoneinfo/java %{buildroot}%{_datadir}/javazi
 %endif
 
 # nuke unpackaged files
