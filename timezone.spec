@@ -1,10 +1,10 @@
 %define name	timezone
 %define epoch	6
-%define version	2011m
+%define version	2011n
 %define release	%mkrel 1
 
 #define tzdata_version %{version}
-%define tzdata_version 2011m
+%define tzdata_version 2011n
 %define tzcode_version 2011i
 
 # the zic(8) and zdump(8) manpages are already in man-pages
