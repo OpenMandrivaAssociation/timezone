@@ -1,9 +1,9 @@
 %if %mandriva_branch == Cooker
 # Cooker
-%define release 1
+%define release 2
 %else
 # Old distros
-%define subrel 1
+%define subrel 2
 %define release %mkrel 0
 %endif
 
@@ -12,7 +12,7 @@
 %define version	2012b
 
 #define tzdata_version %{version}
-%define tzdata_version 2012b
+%define tzdata_version 2012c
 %define tzcode_version 2012b
 
 # the zic(8) and zdump(8) manpages are already in man-pages
