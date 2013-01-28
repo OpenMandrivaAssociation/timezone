@@ -1,7 +1,6 @@
-diff -p -up tzdata/tzdata2010o/backward.orig tzdata/tzdata2010o/backward
---- tzdata/tzdata2010o/backward.orig	2010-11-01 11:18:22.000000000 -0200
-+++ tzdata/tzdata2010o/backward	2010-11-03 13:10:42.657695694 -0200
-@@ -116,3 +116,18 @@ Link	Etc/UTC			UTC
+--- tzdata2011f/backward.orig	2010-12-16 19:24:20.000000000 +0200
++++ tzdata2011f/backward	2011-04-20 21:25:42.831684574 +0200
+@@ -116,3 +116,18 @@
  Link	Etc/UTC			Universal
  Link	Europe/Moscow		W-SU
  Link	Etc/UTC			Zulu

@@ -13,7 +13,7 @@
 %ifarch %mips
 %define build_java 0
 %else
-%define build_java 1
+%define build_java 0
 %endif
 
 Summary:	Timezone data
@@ -24,11 +24,10 @@ Release:	%{release}
 License:	GPL
 Group:		System/Base
 Conflicts:	glibc < 6:2.2.5-6mdk
-Source0:	tzdata-base-0.tar.bz2
-Source1:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
-Source2:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_version}.tar.gz
-Source3:	javazic.tar.gz
-Source4:	update-localtime.sh
+Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
+Source1:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_version}.tar.gz
+Source2:	javazic.tar.gz
+Source3:	update-localtime.sh
 Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
@@ -52,29 +51,12 @@ This package contains timezone information for use by Java runtimes.
 %endif
 
 %prep
-%setup -q -n tzdata
-mkdir tzdata%{tzdata_version}
-tar xzf %{SOURCE1} -C tzdata%{tzdata_version}
-mkdir tzcode%{tzcode_version}
-tar xzf %{SOURCE2} -C tzcode%{tzcode_version}
-
-%patch0 -p1 -b .mdvconfig
-pushd tzdata%{tzdata_version}
-%patch1 -p2 -b .extra-tz-links
-popd
-
-ln -s Makeconfig.in Makeconfig
-cat > config.mk << EOF
-objpfx = `pwd`/obj/
-sbindir = %{_sbindir}
-datadir = %{_datadir}
-install_root = %{buildroot}
-sysdep-CFLAGS = %{optflags}
-EOF
+%setup -q -c -a 1
+%patch1 -p1 -b .extra-tz-links
 
 %if %{build_java}
 mkdir javazic
-tar xf %{SOURCE3} -C javazic
+tar xf %{SOURCE2} -C javazic
 pushd javazic
 %patch2 -p0 -b .javazic-fixup
 
@@ -92,7 +74,6 @@ done
 popd
 
 # Create zone.info entries for deprecated zone names (#40184)
-pushd tzdata%{tzdata_version}
 	chmod +w zone.tab
 	echo '# zone info for backward zone names' > zone.tab.new
 	while read link cur old x; do
@@ -111,55 +92,56 @@ pushd tzdata%{tzdata_version}
 		exit 1
 	fi
 	rm -f zone.tab.new
-popd
 %endif
 
 %build
-%make
-grep -v tz-art.htm tzcode%{tzcode_version}/tz-link.htm > tzcode%{tzcode_version}/tz-link.html
+%make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" LDFLAGS="%{ldflags}"
+grep -v tz-art.htm tz-link.htm > tz-link.html
 
 %if %{build_java}
 pushd javazic
 %{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
 popd
-pushd tzdata%{tzdata_version}
-%{java} -classpath ../javazic/ rht.tools.javazic.Main -V %{version} \
-  -d ../zoneinfo/java \
+%{java} -classpath javazic/ rht.tools.javazic.Main -V %{version} \
+  -d zoneinfo/java \
   africa antarctica asia australasia europe northamerica pacificnew \
   southamerica backward etcetera solar87 solar88 solar89 systemv \
-  ../javazic/tzdata_jdk/gmt ../javazic/tzdata_jdk/jdk11_backward
+  javazic/tzdata_jdk/gmt javazic/tzdata_jdk/jdk11_backward
 popd
 %endif
 
 %install
-make install
+make TOPDIR="%{buildroot}/usr" \
+    TZDIR=%{buildroot}%{_datadir}/zoneinfo \
+    ETCDIR=%{buildroot}%{_sbindir} \
+    install
+
+mv %{buildroot}%{_datadir}/zoneinfo-leaps %{buildroot}%{_datadir}/zoneinfo/right
+mv %{buildroot}%{_datadir}/zoneinfo-posix %{buildroot}%{_datadir}/zoneinfo/posix
 
 %if %{build_java}
 cp -a zoneinfo/java %{buildroot}%{_datadir}/javazi
 %endif
 
 # nuke unpackaged files
-rm -f %{buildroot}%{_sysconfdir}/localtime
+rm -f %{buildroot}%{_datadir}/zoneinfo/localtime
+rm -rf %{buildroot}/usr/{lib,man}
+rm -f %{buildroot}%{_sbindir}/tzselect
 
 # install man pages
 %if %{build_manpages}
 mkdir -p %{buildroot}%{_mandir}/man8
 for f in zic zdump; do
-install -m 644 tzcode*/$f.8 %{buildroot}%{_mandir}/man8/
+install -m 644 $f.8 %{buildroot}%{_mandir}/man8/
 done
 %endif
 
 # install update-localtime script
 mkdir -p %{buildroot}%{_sbindir}
-install -m 755 %{SOURCE4} %{buildroot}%{_sbindir}/update-localtime
+install -m 755 %{SOURCE3} %{buildroot}%{_sbindir}/update-localtime
 perl -pi -e 's|\@datadir\@|%{_datadir}|;' \
 	 -e 's|\@sysconfdir\@|%{_sysconfdir}|' \
 	%{buildroot}%{_sbindir}/update-localtime
-
-%check
-echo ====================TESTING=========================
-make check
-echo ====================TESTING END=====================
 
 # XXX next glibc updates are expected to remove /etc/localtime
 %triggerpostun -- glibc < 6:2.4-8mdv2007.1
@@ -171,9 +153,9 @@ fi
 %{_sbindir}/update-localtime
 
 %files
-%doc tzcode%{tzcode_version}/README
-%doc tzcode%{tzcode_version}/Theory
-%doc tzcode%{tzcode_version}/tz-link.html
+%doc README
+%doc Theory
+%doc tz-link.html
 %{_sbindir}/zdump
 %{_sbindir}/zic
 %{_sbindir}/update-localtime
