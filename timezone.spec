@@ -1,8 +1,8 @@
-%define name	timezone
-%define epoch	6
-%define version	2011m
+%define name timezone
+%define epoch 6
+%define version 2011m
 %define subrel 1
-%define release	%mkrel 6
+%define release 6
 
 #define tzdata_version %{version}
 %define tzdata_version 2011m
@@ -33,8 +33,8 @@ Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
 Provides:	tzdata = %{version}-%{release}
-BuildRequires:	gawk, perl
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRequires:	gawk
+BuildRequires:	perl
 
 %description
 This package contains data files with rules for various timezones
@@ -132,12 +132,10 @@ popd
 %endif
 
 %install
-rm -rf %{buildroot}
-
 make install
 
 %if %{build_java}
-cp -a zoneinfo/java $RPM_BUILD_ROOT%{_datadir}/javazi
+cp -a zoneinfo/java %{buildroot}%{_datadir}/javazi
 %endif
 
 # nuke unpackaged files
@@ -172,11 +170,7 @@ fi
 %post
 %{_sbindir}/update-localtime
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root)
 %doc tzcode%{tzcode_version}/README
 %doc tzcode%{tzcode_version}/Theory
 %doc tzcode%{tzcode_version}/tz-link.html
@@ -192,7 +186,6 @@ rm -rf %{buildroot}
 
 %if %{build_java}
 %files java
-%defattr(-,root,root)
 %{_datadir}/javazi
 %endif
 

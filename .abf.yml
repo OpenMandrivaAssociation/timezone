@@ -1,5 +1,6 @@
+---
 sources:
-  "javazic.tar.gz": ee8ad215161cd132e65e2be447b279457158b540
-  "tzcode2011i.tar.gz": 4f58cede47df8bba55b37982d8b38cd65266d412
-  "tzdata-base-0.tar.bz2": 0b0043f3e15b61eeff74a833da79f41d603e6db6
-  "tzdata2011m.tar.gz": e6374cd41c5bffd7ade27c365c4bdc5213bb9d85
+  javazic.tar.gz: ee8ad215161cd132e65e2be447b279457158b540
+  tzcode2011i.tar.gz: 4f58cede47df8bba55b37982d8b38cd65266d412
+  tzdata-base-0.tar.bz2: 0b0043f3e15b61eeff74a833da79f41d603e6db6
+  tzdata2011m.tar.gz: e6374cd41c5bffd7ade27c365c4bdc5213bb9d85
