@@ -1,26 +1,16 @@
-%define name timezone
-%define epoch 6
-%define version 2012j
-%define subrel 1
-%define release 1
-
 #define tzdata_version %{version}
 %define tzdata_version 2012j
 %define tzcode_version 2012j
 
 # the zic(8) and zdump(8) manpages are already in man-pages
-%define build_manpages 0
-%ifarch %mips
-%define build_java 0
-%else
-%define build_java 0
-%endif
+%bcond_with manpages
+%bcond_without java
 
 Summary:	Timezone data
-Name:		%{name}
-Epoch:		%{epoch}
-Version:	%{version}
-Release:	%{release}
+Name:		timezone
+Epoch:		6
+Version:	2012j
+Release:	1
 License:	GPL
 Group:		System/Base
 Conflicts:	glibc < 6:2.2.5-6mdk
@@ -39,7 +29,7 @@ BuildRequires:	perl
 This package contains data files with rules for various timezones
 around the world.
 
-%if %{build_java}
+%if %{with java}
 %package java
 Summary:	Timezone data for Java
 Group:		System/Base
@@ -54,7 +44,7 @@ This package contains timezone information for use by Java runtimes.
 %setup -q -c -a 1
 %patch1 -p1 -b .extra-tz-links
 
-%if %{build_java}
+%if %{with java}
 mkdir javazic
 tar xf %{SOURCE2} -C javazic
 pushd javazic
@@ -98,7 +88,7 @@ popd
 %make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" LDFLAGS="%{ldflags}"
 grep -v tz-art.htm tz-link.htm > tz-link.html
 
-%if %{build_java}
+%if %{with java}
 pushd javazic
 %{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
 popd
@@ -107,7 +97,6 @@ popd
   africa antarctica asia australasia europe northamerica pacificnew \
   southamerica backward etcetera solar87 solar88 solar89 systemv \
   javazic/tzdata_jdk/gmt javazic/tzdata_jdk/jdk11_backward
-popd
 %endif
 
 %install
@@ -119,7 +108,7 @@ make TOPDIR="%{buildroot}/usr" \
 mv %{buildroot}%{_datadir}/zoneinfo-leaps %{buildroot}%{_datadir}/zoneinfo/right
 mv %{buildroot}%{_datadir}/zoneinfo-posix %{buildroot}%{_datadir}/zoneinfo/posix
 
-%if %{build_java}
+%if %{with java}
 cp -a zoneinfo/java %{buildroot}%{_datadir}/javazi
 %endif
 
@@ -129,7 +118,7 @@ rm -rf %{buildroot}/usr/{lib,man}
 rm -f %{buildroot}%{_sbindir}/tzselect
 
 # install man pages
-%if %{build_manpages}
+%if %{with manpages}
 mkdir -p %{buildroot}%{_mandir}/man8
 for f in zic zdump; do
 install -m 644 $f.8 %{buildroot}%{_mandir}/man8/
@@ -159,14 +148,14 @@ fi
 %{_sbindir}/zdump
 %{_sbindir}/zic
 %{_sbindir}/update-localtime
-%if %{build_manpages}
+%if %{with manpages}
 %{_mandir}/man8/zdump.8*
 %{_mandir}/man8/zic.8*
 %endif
 %dir %{_datadir}/zoneinfo
 %{_datadir}/zoneinfo/*
 
-%if %{build_java}
+%if %{with java}
 %files java
 %{_datadir}/javazi
 %endif
