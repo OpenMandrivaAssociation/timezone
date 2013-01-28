@@ -34,7 +34,9 @@ around the world.
 Summary:	Timezone data for Java
 Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
-BuildRequires:	java-1.6.0-openjdk-devel
+# We use gcj instead of OpenJDK to avoid a circular build dependency.
+# OpenJDK requires tzdata-java to be installed.
+BuildRequires:	java-1.5.0-gcj-devel gcj-tools
 
 %description java
 This package contains timezone information for use by Java runtimes.
@@ -90,9 +92,9 @@ grep -v tz-art.htm tz-link.htm > tz-link.html
 
 %if %{with java}
 pushd javazic
-/usr/lib/jvm/java-1.6.0/bin/javac -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
+/usr/lib/jvm/java-gcj/bin/javac -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
 popd
-/usr/lib/jvm/java-1.6.0/bin/java -classpath javazic/ rht.tools.javazic.Main -V %{version} \
+/usr/lib/jvm/java-1.5.0-gcj-1.5.0.0/bin/java -classpath javazic/ rht.tools.javazic.Main -V %{version} \
   -d zoneinfo/java \
   africa antarctica asia australasia europe northamerica pacificnew \
   southamerica backward etcetera solar87 solar88 solar89 systemv \
