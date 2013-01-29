@@ -36,7 +36,7 @@ Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
 # We use gcj instead of OpenJDK to avoid a circular build dependency.
 # OpenJDK requires tzdata-java to be installed.
-BuildRequires:	java-1.5.0-gcj-devel gcj-tools
+BuildRequires:	java-1.5.0-gcj-devel gcj-tools libgcj13
 
 %description java
 This package contains timezone information for use by Java runtimes.
@@ -92,7 +92,7 @@ grep -v tz-art.htm tz-link.htm > tz-link.html
 
 %if %{with java}
 pushd javazic
-/usr/lib/jvm/java-gcj/bin/javac -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
+/usr/lib/jvm/java-gcj/bin/javac -source 1.5 -target 1.5 -classpath `ls %_datadir/java/libgcj-[4-9]*.jar|head -n1`:. `find . -name \*.java`
 popd
 /usr/lib/jvm/java-1.5.0-gcj-1.5.0.0/bin/java -classpath javazic/ rht.tools.javazic.Main -V %{version} \
   -d zoneinfo/java \
