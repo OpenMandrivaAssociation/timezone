@@ -10,10 +10,9 @@ Summary:	Timezone data
 Name:		timezone
 Epoch:		6
 Version:	2012j
-Release:	1
+Release:	2
 License:	GPL
 Group:		System/Base
-Conflicts:	glibc < 6:2.2.5-6mdk
 Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
 Source1:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_version}.tar.gz
 Source2:	javazic.tar.gz
@@ -21,9 +20,9 @@ Source3:	update-localtime.sh
 Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
-Provides:	tzdata = %{version}-%{release}
 BuildRequires:	gawk
 BuildRequires:	perl
+Provides:	tzdata = %{version}-%{release}
 
 %description
 This package contains data files with rules for various timezones
@@ -134,13 +133,7 @@ perl -pi -e 's|\@datadir\@|%{_datadir}|;' \
 	 -e 's|\@sysconfdir\@|%{_sysconfdir}|' \
 	%{buildroot}%{_sbindir}/update-localtime
 
-# XXX next glibc updates are expected to remove /etc/localtime
-%triggerpostun -- glibc < 6:2.4-8mdv2007.1
-if [ ! -f %{_sysconfdir}/localtime ]; then
-  %{_sbindir}/update-localtime
-fi
-
-%post
+%posttrans
 %{_sbindir}/update-localtime
 
 %files
