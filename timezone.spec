@@ -1,6 +1,6 @@
 #define tzdata_version %{version}
-%define tzdata_version 2012j
-%define tzcode_version 2012j
+%define tzdata_version 2013b
+%define tzcode_version 2013b
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %bcond_with manpages
