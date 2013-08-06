@@ -1,6 +1,6 @@
 #define tzdata_version %{version}
-%define tzdata_version 2013b
-%define tzcode_version 2013b
+%define tzdata_version 2013d
+%define tzcode_version 2013d
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %bcond_with manpages
@@ -8,8 +8,8 @@
 
 Summary:	Timezone data
 Name:		timezone
-Epoch:		6
-Version:	2013b
+Epoch:		1
+Version:	2013d
 Release:	1
 License:	GPL
 Group:		System/Base
