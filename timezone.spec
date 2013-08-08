@@ -22,7 +22,7 @@ Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
 BuildRequires:	gawk
 BuildRequires:	perl
-BuildRequires:	libgcj
+BuildRequires:	libgcj-java
 Provides:	tzdata = %{version}-%{release}
 
 %description
