@@ -22,7 +22,6 @@ Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
 BuildRequires:	gawk
 BuildRequires:	perl
-BuildRequires:	libgcj-java
 Provides:	tzdata = %{version}-%{release}
 
 %description
@@ -36,7 +35,8 @@ Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
 # We use gcj instead of OpenJDK to avoid a circular build dependency.
 # OpenJDK requires tzdata-java to be installed.
-BuildRequires:	java-1.5.0-gcj-devel gcj-tools libgcj13
+#BuildRequires:	java-1.5.0-gcj-devel gcj-tools libgcj13
+BuildRequires:	java-rpmbuild
 
 %description java
 This package contains timezone information for use by Java runtimes.
@@ -92,9 +92,9 @@ grep -v tz-art.htm tz-link.htm > tz-link.html
 
 %if %{with java}
 pushd javazic
-/usr/lib/jvm/java-gcj/bin/javac -source 1.5 -target 1.5 -classpath `ls %_datadir/java/libgcj-*.jar|head -n1`:. `find . -name \*.java`
+%{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
 popd
-/usr/lib/jvm/java-1.5.0-gcj-1.5.0.0/bin/java -classpath javazic/ rht.tools.javazic.Main -V %{version} \
+%{java} -classpath javazic/ rht.tools.javazic.Main -V %{version} \
   -d zoneinfo/java \
   africa antarctica asia australasia europe northamerica pacificnew \
   southamerica backward etcetera solar87 solar88 solar89 systemv \
