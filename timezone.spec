@@ -92,7 +92,7 @@ grep -v tz-art.htm tz-link.htm > tz-link.html
 
 %if %{with java}
 pushd javazic
-/usr/lib/jvm/java-gcj/bin/javac -source 1.5 -target 1.5 -classpath `ls %_datadir/java/libgcj-[4-9]*.jar|head -n1`:. `find . -name \*.java`
+/usr/lib/jvm/java-gcj/bin/javac -source 1.5 -target 1.5 -classpath `ls %_datadir/java/libgcj-*.jar|head -n1`:. `find . -name \*.java`
 popd
 /usr/lib/jvm/java-1.5.0-gcj-1.5.0.0/bin/java -classpath javazic/ rht.tools.javazic.Main -V %{version} \
   -d zoneinfo/java \
