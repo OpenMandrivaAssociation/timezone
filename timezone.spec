@@ -111,7 +111,7 @@ mv %{buildroot}%{_datadir}/zoneinfo-leaps %{buildroot}%{_datadir}/zoneinfo/right
 mv %{buildroot}%{_datadir}/zoneinfo-posix %{buildroot}%{_datadir}/zoneinfo/posix
 
 %if %{with java}
-cp -a zoneinfo/java %{buildroot}%{_datadir}/javazi
+cp -prd javazi %{buildroot}%{_datadir}/javazi
 %endif
 
 # nuke unpackaged files
