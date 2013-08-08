@@ -95,10 +95,10 @@ pushd javazic
 %{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
 popd
 %{java} -classpath javazic/ rht.tools.javazic.Main -V %{version} \
-  -d zoneinfo/java \
-  africa antarctica asia australasia europe northamerica pacificnew \
-  southamerica backward etcetera solar87 solar88 solar89 systemv \
-  javazic/tzdata_jdk/gmt javazic/tzdata_jdk/jdk11_backward
+ -d zoneinfo/java \
+ africa antarctica asia australasia europe northamerica pacificnew \
+ southamerica backward etcetera solar87 solar88 solar89 systemv \
+ javazic/tzdata_jdk/gmt javazic/tzdata_jdk/jdk11_backward
 %endif
 
 %install
