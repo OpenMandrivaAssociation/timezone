@@ -8,7 +8,7 @@
 
 Summary:	Timezone data
 Name:		timezone
-Epoch:		1
+Epoch:		6
 Version:	2013d
 Release:	1
 License:	GPL
