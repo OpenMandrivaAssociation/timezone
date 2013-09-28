@@ -15,7 +15,7 @@ Summary:	Timezone data
 Name:		timezone
 Epoch:		6
 Version:	2013f
-Release:	1
+Release:	2
 License:	GPL
 Group:		System/Base
 Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
@@ -25,6 +25,7 @@ Source3:	update-localtime.sh
 Patch0:		tzdata-mdvconfig.patch
 Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
+Patch3:		timezone-data-2013f-makefile.patch
 BuildRequires:	gawk
 BuildRequires:	perl
 Provides:	tzdata = %{version}-%{release}
@@ -90,6 +91,7 @@ popd
 	fi
 	rm -f zone.tab.new
 %endif
+%patch3 -p1
 
 %build
 %make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" LDFLAGS="%{ldflags}"
@@ -112,9 +114,6 @@ make TOPDIR="%{buildroot}/usr" \
     ETCDIR=%{buildroot}%{_sbindir} \
     install
 
-mv %{buildroot}%{_datadir}/zoneinfo-leaps %{buildroot}%{_datadir}/zoneinfo/right
-mv %{buildroot}%{_datadir}/zoneinfo-posix %{buildroot}%{_datadir}/zoneinfo/posix
-
 %if %{with java}
 cp -a zoneinfo/java %{buildroot}%{_datadir}/javazi
 %endif
@@ -122,7 +121,8 @@ cp -a zoneinfo/java %{buildroot}%{_datadir}/javazi
 # nuke unpackaged files
 rm -f %{buildroot}%{_datadir}/zoneinfo/localtime
 rm -rf %{buildroot}/usr/{lib,man}
-rm -f %{buildroot}%{_sbindir}/tzselect
+rm -f %{buildroot}%{_bindir}/tzselect
+rm -f %{buildroot}%{_mandir}/man3/new*.3*
 
 # install man pages
 %if %{with manpages}
