@@ -1,6 +1,6 @@
 #define tzdata_version %{version}
-%define tzdata_version 2013f
-%define tzcode_version 2013f
+%define tzdata_version 2013g
+%define tzcode_version 2013g
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %bcond_with manpages
@@ -14,8 +14,8 @@
 Summary:	Timezone data
 Name:		timezone
 Epoch:		6
-Version:	2013f
-Release:	2
+Version:	2013g
+Release:	1
 License:	GPL
 Group:		System/Base
 Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
