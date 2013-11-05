@@ -4,11 +4,8 @@
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %bcond_with manpages
-%ifarch %{ix86} x86_64
+%ifarch %{ix86} x86_64 %arm
 %bcond_without java
-%endif
-%ifarch %arm
-%bcond_with java
 %endif
 
 Summary:	Timezone data
