@@ -136,9 +136,11 @@ perl -pi -e 's|\@datadir\@|%{_datadir}|;' \
 	 -e 's|\@sysconfdir\@|%{_sysconfdir}|' \
 	%{buildroot}%{_sbindir}/update-localtime
 
-%pre
+%pretrans
 # This is being replaced with a symlink to .
-[ -d %{_datadir}/zoneinfo/posix ] && rm -rf %{_datadir}/zoneinfo/posix
+if [ ! -L %{_datadir}/zoneinfo/posix ]; then
+  rm -rf %{_datadir}/zoneinfo/posix
+fi
 
 %posttrans -p %{_sbindir}/update-localtime
 
