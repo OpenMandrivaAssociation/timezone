@@ -2,5 +2,7 @@ sources:
   javazic.tar.gz: ee8ad215161cd132e65e2be447b279457158b540
   tzcode2013f.tar.gz: daf27f2434bcc5e1489a1ade86917207913cf1ef
   tzcode2013g.tar.gz: d5a8be5e2414c5f500de9ab2d3472009583ad9dc
+  tzcode2013i.tar.gz: 33128b669b8c63379b35e6768e50fbd0b1c9386a
   tzdata2013f.tar.gz: df1bc479779151403d847d42e3b3824ff710edfa
   tzdata2013g.tar.gz: be5ec909a9ee363a80dc88b2d1ae9690cacac4b2
+  tzdata2013i.tar.gz: d35ef38199509710c4723d03b32ab0894d779582
