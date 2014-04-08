@@ -3,7 +3,7 @@
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
-%ifarch %mips %arm
+%ifarch %mips
 %define build_java 0
 %else
 %define build_java 1
@@ -13,7 +13,7 @@ Summary:	Timezone data
 Name:		timezone
 Epoch:		6
 Version:	2014b
-Release:	1
+Release:	2
 License:	GPL
 Group:		System/Base
 Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
