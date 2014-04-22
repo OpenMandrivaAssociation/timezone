@@ -13,7 +13,7 @@ Summary:	Timezone data
 Name:		timezone
 Epoch:		6
 Version:	2014b
-Release:	2
+Release:	3
 License:	GPL
 Group:		System/Base
 Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
@@ -24,6 +24,7 @@ Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
 Patch3:         javazic-exclusion-fix.patch
 Provides:	tzdata = %{version}-%{release}
+Requires(pre):	coreutils util-linux
 Conflicts:     %{name} < 6:2013f-1
 BuildRequires:	gawk, perl
 
@@ -139,7 +140,7 @@ perl -pi -e 's|\@datadir\@|%{_datadir}|;' \
 
 %post -p %{_sbindir}/update-localtime
 
-%pretrans
+%pre
 if [ -e %{_datadir}/zoneinfo/posix -a ! -L %{_datadir}/zoneinfo/posix ]; then
   rm -rf %{_datadir}/zoneinfo/posix
 fi
