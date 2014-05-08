@@ -39,6 +39,7 @@ Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
 BuildRequires:	java-rpmbuild
 BuildRequires:  java-devel
+BuildREquires:	javapackages-tools
 
 %description java
 This package contains timezone information for use by Java runtimes.
