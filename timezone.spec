@@ -11,7 +11,7 @@
 
 Summary:	Timezone data
 Name:		timezone
-Epoch:		6
+Epoch:		7
 Version:	2014b
 Release:	7
 License:	GPL
