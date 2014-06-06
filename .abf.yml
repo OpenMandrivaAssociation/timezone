@@ -1,6 +1,5 @@
 sources:
   javazic.tar.gz: ee8ad215161cd132e65e2be447b279457158b540
-  tzcode2013f.tar.gz: daf27f2434bcc5e1489a1ade86917207913cf1ef
-  tzcode2013g.tar.gz: d5a8be5e2414c5f500de9ab2d3472009583ad9dc
-  tzdata2013f.tar.gz: df1bc479779151403d847d42e3b3824ff710edfa
-  tzdata2013g.tar.gz: be5ec909a9ee363a80dc88b2d1ae9690cacac4b2
+  tzcode2014d.tar.gz: c83f2e2e675cf7d6dd3706de391bafa744c902db
+  tzdata-base-0.tar.bz2: 0b0043f3e15b61eeff74a833da79f41d603e6db6
+  tzdata2014d.tar.gz: 9309aeba6eb2eeba9ad0fad9080d40326cfdfb2a
