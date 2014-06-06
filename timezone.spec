@@ -1,5 +1,5 @@
-%define tzdata_version 2014b
-%define tzcode_version 2014b
+%define tzdata_version 2014d
+%define tzcode_version 2014d
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
@@ -24,9 +24,11 @@ Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
 Patch3:         javazic-exclusion-fix.patch
 Provides:	tzdata = %{version}-%{release}
-Requires(pre):	coreutils util-linux
+Requires(pre):	coreutils
+Requires(pre):	util-linux
 Conflicts:     %{name} < 6:2013f-1
-BuildRequires:	gawk, perl
+BuildRequires:	gawk
+BuildRequires:	perl
 
 %description
 This package contains data files with rules for various timezones
@@ -39,7 +41,7 @@ Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
 BuildRequires:	java-rpmbuild
 BuildRequires:  java-devel
-BuildREquires:	javapackages-tools
+BuildRequires:	javapackages-tools
 
 %description java
 This package contains timezone information for use by Java runtimes.
