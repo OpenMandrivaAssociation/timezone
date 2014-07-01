@@ -12,8 +12,8 @@
 Summary:	Timezone data
 Name:		timezone
 Epoch:		7
-Version:	2014b
-Release:	8
+Version:	2014e
+Release:	1
 License:	GPL
 Group:		System/Base
 Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
