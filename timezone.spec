@@ -92,9 +92,7 @@ popd
 %endif
 
 %build
-
-export CC=%{__cc}
-%make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99"
+%make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
 
 grep -v tz-art.htm tz-link.htm > tz-link.html
 
