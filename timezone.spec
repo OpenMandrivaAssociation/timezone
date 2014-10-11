@@ -1,34 +1,31 @@
-%define tzdata_version 2014d
-%define tzcode_version 2014d
+%define tzdata_version 2014g
+%define tzcode_version 2014g
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
-%ifarch %mips
+%ifarch %mips %arm
 %define build_java 0
 %else
 %define build_java 1
 %endif
 
-Summary:	Timezone data
-Name:		timezone
-Epoch:		7
-Version:	2014e
-Release:	2
-License:	GPL
-Group:		System/Base
-Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
-Source1:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_version}.tar.gz
-Source2:	javazic.tar.gz
-Source3:	update-localtime.sh
-Patch1:		tzdata-extra-tz-links.patch
-Patch2:		javazic-fixup.patch
+Summary:        Time Zone Database
+Name:           timezone
+Epoch:          6
+Version:        2014g
+Release:        2
+License:        GPL
+Group:          System/Base
+URL:            http://www.iana.org/time-zones
+Source0:        ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
+Source1:        ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_version}.tar.gz
+Source2:        javazic.tar.gz
+Patch1:         tzdata-extra-tz-links.patch
+Patch2:         javazic-fixup.patch
 Patch3:         javazic-exclusion-fix.patch
-Provides:	tzdata = %{version}-%{release}
-Requires(pre):	coreutils
-Requires(pre):	util-linux
-Conflicts:     %{name} < 6:2013f-1
-BuildRequires:	gawk
-BuildRequires:	perl
+Provides:       tzdata = %{version}-%{release}
+Conflicts:      %{name} < 6:2013f-1
+BuildRequires:  gawk, perl
 
 %description
 This package contains data files with rules for various timezones
@@ -36,12 +33,11 @@ around the world.
 
 %if %{build_java}
 %package java
-Summary:	Timezone data for Java
-Group:		System/Base
-Provides:	tzdata-java = %{version}-%{release}
-BuildRequires:	java-rpmbuild
+Summary:        Timezone data for Java
+Group:          System/Base
+Provides:       tzdata-java = %{version}-%{release}
+BuildRequires:  java-rpmbuild
 BuildRequires:  java-devel
-BuildRequires:	javapackages-tools
 
 %description java
 This package contains timezone information for use by Java runtimes.
@@ -71,28 +67,29 @@ done
 popd
 
 # Create zone.info entries for deprecated zone names (#40184)
-	chmod +w zone.tab
-	echo '# zone info for backward zone names' > zone.tab.new
-	while read link cur old x; do
-		case $link-${cur+cur}-${old+old}${x:+X} in
-		Link-cur-old)
-			awk -v cur="$cur" -v old="$old" \
-				'!/^#/ && $3 == cur { sub(cur,old); print }' \
-				zone.tab || echo ERROR ;;
-		Link-*)
-			echo 'Error processing backward entry for zone.tab'
-			exit 1 ;;
-		esac
-	done < backward >> zone.tab.new
-	if grep -q '^ERROR' zone.tab.new || ! cat zone.tab.new >> zone.tab; then
-		echo "Error adding backward entries to zone.tab"
-		exit 1
-	fi
-	rm -f zone.tab.new
+    chmod +w zone.tab
+        echo '# zone info for backward zone names' > zone.tab.new
+        while read link cur old x; do
+            case $link-${cur+cur}-${old+old}${x:+X} in
+                Link-cur-old)
+                    awk -v cur="$cur" -v old="$old" \
+                            '!/^#/ && $3 == cur { sub(cur,old); print }' \
+                                zone.tab || echo ERROR ;;
+                    Link-*)
+                        echo 'Error processing backward entry for zone.tab'
+                        exit 1 ;;
+            esac
+        done < backward >> zone.tab.new
+        if grep -q '^ERROR' zone.tab.new || ! cat zone.tab.new >> zone.tab; then
+            echo "Error adding backward entries to zone.tab"
+            exit 1
+        fi
+        rm -f zone.tab.new
 %endif
 
 %build
-%make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
+
+%make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99"
 
 grep -v tz-art.htm tz-link.htm > tz-link.html
 
@@ -133,16 +130,7 @@ install -m 644 $f.8 %{buildroot}%{_mandir}/man8/
 done
 %endif
 
-# install update-localtime script
-mkdir -p %{buildroot}%{_sbindir}
-install -m 755 %{SOURCE3} %{buildroot}%{_sbindir}/update-localtime
-perl -pi -e 's|\@datadir\@|%{_datadir}|;' \
-	 -e 's|\@sysconfdir\@|%{_sysconfdir}|' \
-	%{buildroot}%{_sbindir}/update-localtime
-
-%post -p %{_sbindir}/update-localtime
-
-%pre
+%pretrans
 if [ -e %{_datadir}/zoneinfo/posix -a ! -L %{_datadir}/zoneinfo/posix ]; then
   rm -rf %{_datadir}/zoneinfo/posix
 fi
@@ -153,7 +141,6 @@ fi
 %doc tz-link.html
 %{_sbindir}/zdump
 %{_sbindir}/zic
-%{_sbindir}/update-localtime
 %if %{build_manpages}
 %{_mandir}/man8/zdump.8*
 %{_mandir}/man8/zic.8*
