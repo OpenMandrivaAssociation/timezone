@@ -1,5 +1,6 @@
 %define tzdata_version 2014g
 %define tzcode_version 2014g
+%bcond_without bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
@@ -23,6 +24,9 @@ Source2:        javazic.tar.gz
 Patch1:         tzdata-extra-tz-links.patch
 Patch2:         javazic-fixup.patch
 Patch3:         javazic-exclusion-fix.patch
+%if %{with bootstrap}
+Provides:		tzdata-java = %{version}-%{release}
+%endif
 Provides:       tzdata = %{version}-%{release}
 Conflicts:      %{name} < 6:2013f-1
 BuildRequires:  gawk, perl
