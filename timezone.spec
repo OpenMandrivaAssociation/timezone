@@ -1,6 +1,6 @@
-%define tzdata_version 2014g
-%define tzcode_version 2014g
-%bcond_without bootstrap
+%define tzdata_version 2014j
+%define tzcode_version 2014j
+%bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
@@ -13,8 +13,8 @@
 Summary:        Time Zone Database
 Name:           timezone
 Epoch:          7
-Version:        2014g
-Release:        3
+Version:        2014j
+Release:        1
 License:        GPL
 Group:          System/Base
 URL:            http://www.iana.org/time-zones
@@ -25,7 +25,7 @@ Patch1:         tzdata-extra-tz-links.patch
 Patch2:         javazic-fixup.patch
 Patch3:         javazic-exclusion-fix.patch
 %if %{with bootstrap}
-Provides:		tzdata-java = %{version}-%{release}
+Provides:	tzdata-java = %{version}-%{release}
 %endif
 Provides:       tzdata = %{version}-%{release}
 Conflicts:      %{name} < 6:2013f-1
