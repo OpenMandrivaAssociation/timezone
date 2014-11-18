@@ -4,7 +4,7 @@
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
-%ifarch %mips armv7hl
+%ifarch %{mipsx}
 %define build_java 0
 %else
 %define build_java 1
@@ -14,7 +14,7 @@ Summary:        Time Zone Database
 Name:           timezone
 Epoch:          7
 Version:        2014j
-Release:        2
+Release:        3
 License:        GPL
 Group:          System/Base
 URL:            http://www.iana.org/time-zones
