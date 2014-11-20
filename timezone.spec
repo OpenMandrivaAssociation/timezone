@@ -1,10 +1,10 @@
 %define tzdata_version 2014j
 %define tzcode_version 2014j
-%bcond_with bootstrap
+%bcond_without bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
-%ifarch %{mipsx}
+%ifarch %{mipsx} armv7hl
 %define build_java 0
 %else
 %define build_java 1
@@ -14,7 +14,7 @@ Summary:        Time Zone Database
 Name:           timezone
 Epoch:          7
 Version:        2014j
-Release:        3
+Release:        4
 License:        GPL
 Group:          System/Base
 URL:            http://www.iana.org/time-zones
