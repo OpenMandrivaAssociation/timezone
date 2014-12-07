@@ -14,7 +14,7 @@ Summary:        Time Zone Database
 Name:           timezone
 Epoch:          7
 Version:        2014j
-Release:        5
+Release:        6
 License:        GPL
 Group:          System/Base
 URL:            http://www.iana.org/time-zones
