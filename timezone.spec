@@ -29,7 +29,8 @@ Provides:	tzdata-java = %{version}-%{release}
 %endif
 Provides:       tzdata = %{version}-%{release}
 Conflicts:      %{name} < 6:2013f-1
-BuildRequires:  gawk, perl
+BuildRequires:  gawk
+BuildRequires:	perl
 
 %description
 This package contains data files with rules for various timezones
@@ -40,7 +41,6 @@ around the world.
 Summary:        Timezone data for Java
 Group:          System/Base
 Provides:       tzdata-java = %{version}-%{release}
-BuildRequires:  java-rpmbuild
 BuildRequires:  java-devel
 BuildRequires:	javapackages-tools
 
