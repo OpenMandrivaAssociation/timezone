@@ -14,7 +14,7 @@ Summary:        Time Zone Database
 Name:           timezone
 Epoch:          8
 Version:        2014j
-Release:        6
+Release:        7
 License:        GPL
 Group:          System/Base
 URL:            http://www.iana.org/time-zones
@@ -25,7 +25,7 @@ Patch1:         tzdata-extra-tz-links.patch
 Patch2:         javazic-fixup.patch
 Patch3:         javazic-exclusion-fix.patch
 %if %{with bootstrap}
-Provides:	tzdata-java = %{version}-%{release}
+Provides:		tzdata-java = %{version}-%{release}
 %endif
 Provides:       tzdata = %{version}-%{release}
 Conflicts:      %{name} < 6:2013f-1
@@ -41,7 +41,6 @@ around the world.
 Summary:        Timezone data for Java
 Group:          System/Base
 Provides:       tzdata-java = %{version}-%{release}
-BuildRequires:	jpackage-utils
 BuildRequires:  java-devel
 BuildRequires:	javapackages-tools
 
