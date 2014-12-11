@@ -12,7 +12,7 @@
 
 Summary:        Time Zone Database
 Name:           timezone
-Epoch:          7
+Epoch:          8
 Version:        2014j
 Release:        6
 License:        GPL
