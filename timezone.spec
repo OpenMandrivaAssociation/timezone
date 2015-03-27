@@ -1,5 +1,5 @@
-%define tzdata_version 2014j
-%define tzcode_version 2014j
+%define tzdata_version 2015b
+%define tzcode_version 2015b
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -13,8 +13,8 @@
 Summary:        Time Zone Database
 Name:           timezone
 Epoch:          8
-Version:        2014j
-Release:        7
+Version:        2015b
+Release:        1
 License:        GPL
 Group:          System/Base
 URL:            http://www.iana.org/time-zones
