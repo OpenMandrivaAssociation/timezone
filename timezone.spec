@@ -1,5 +1,5 @@
-%define tzdata_version 2015b
-%define tzcode_version 2015b
+%define tzdata_version 2015e
+%define tzcode_version 2015e
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -13,7 +13,7 @@
 Summary:        Time Zone Database
 Name:           timezone
 Epoch:          8
-Version:        2015b
+Version:        2015e
 Release:        1
 License:        GPL
 Group:          System/Base
@@ -25,7 +25,7 @@ Patch1:         tzdata-extra-tz-links.patch
 Patch2:         javazic-fixup.patch
 Patch3:         javazic-exclusion-fix.patch
 %if %{with bootstrap}
-Provides:		tzdata-java = %{version}-%{release}
+Provides:	tzdata-java = %{version}-%{release}
 %endif
 Provides:       tzdata = %{version}-%{release}
 Conflicts:      %{name} < 6:2013f-1
