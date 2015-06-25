@@ -12,7 +12,7 @@
 Summary:	Timezone data
 Name:		timezone
 Epoch:		7
-Version:	2015b
+Version:	2015e
 Release:	0.1
 License:	GPL
 Group:		System/Base
