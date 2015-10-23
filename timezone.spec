@@ -1,5 +1,5 @@
-%define tzdata_version 2015e
-%define tzcode_version 2015e
+%define tzdata_version 2015g
+%define tzcode_version 2015g
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -13,8 +13,8 @@
 Summary:        Time Zone Database
 Name:           timezone
 Epoch:          8
-Version:        2015e
-Release:        2
+Version:        2015g
+Release:        1
 License:        GPL
 Group:          System/Base
 URL:            http://www.iana.org/time-zones
@@ -31,6 +31,8 @@ Provides:       tzdata = %{version}-%{release}
 Conflicts:      %{name} < 6:2013f-1
 BuildRequires:  gawk
 BuildRequires:	perl
+Provides:	tzdata = %{EVRD}
+Provides:	tzcode = %{EVRD}
 
 %description
 This package contains data files with rules for various timezones
