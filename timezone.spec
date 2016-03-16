@@ -1,5 +1,5 @@
-%define tzdata_version 2015g
-%define tzcode_version 2015g
+%define tzdata_version 2016b
+%define tzcode_version 2016b
 
 # the zic(8) and zdump(8) manpages are already in man-pages
 %define build_manpages 0
@@ -12,7 +12,7 @@
 Summary:	Timezone data
 Name:		timezone
 Epoch:		7
-Version:	2015g
+Version:	2016b
 Release:	0.1
 License:	GPL
 Group:		System/Base
