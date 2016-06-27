@@ -1,5 +1,5 @@
-%define tzdata_version 2016b
-%define tzcode_version 2016b
+%define tzdata_version 2016e
+%define tzcode_version 2016e
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -10,26 +10,26 @@
 %define build_java 1
 %endif
 
-Summary:        Time Zone Database
-Name:           timezone
-Epoch:          8
-Version:        2016b
-Release:        1
-License:        GPL
-Group:          System/Base
-URL:            http://www.iana.org/time-zones
-Source0:        ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
-Source1:        ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_version}.tar.gz
-Source2:        javazic.tar.gz
-Patch1:         tzdata-extra-tz-links.patch
-Patch2:         javazic-fixup.patch
-Patch3:         javazic-exclusion-fix.patch
+Summary:	Time Zone Database
+Name:		timezone
+Epoch:		8
+Version:	2016e
+Release:	1
+License:	GPL
+Group:		System/Base
+URL:		http://www.iana.org/time-zones
+Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
+Source1:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_version}.tar.gz
+Source2:	javazic.tar.gz
+Patch1:		tzdata-extra-tz-links.patch
+Patch2:		javazic-fixup.patch
+Patch3:		javazic-exclusion-fix.patch
 %if %{with bootstrap}
 Provides:	tzdata-java = %{version}-%{release}
 %endif
-Provides:       tzdata = %{version}-%{release}
-Conflicts:      %{name} < 6:2013f-1
-BuildRequires:  gawk
+Provides:	tzdata = %{version}-%{release}
+Conflicts:	%{name} < 6:2013f-1
+BuildRequires:	gawk
 BuildRequires:	perl
 Provides:	tzdata = %{EVRD}
 Provides:	tzcode = %{EVRD}
@@ -40,10 +40,10 @@ around the world.
 
 %if %{build_java}
 %package java
-Summary:        Timezone data for Java
-Group:          System/Base
-Provides:       tzdata-java = %{version}-%{release}
-BuildRequires:  java-devel
+Summary:	Timezone data for Java
+Group:		System/Base
+Provides:	tzdata-java = %{version}-%{release}
+BuildRequires:	java-devel
 BuildRequires:	javapackages-tools
 
 %description java
@@ -139,7 +139,7 @@ done
 
 %pretrans
 if [ -e %{_datadir}/zoneinfo/posix -a ! -L %{_datadir}/zoneinfo/posix ]; then
-  rm -rf %{_datadir}/zoneinfo/posix
+    rm -rf %{_datadir}/zoneinfo/posix
 fi
 
 %files
