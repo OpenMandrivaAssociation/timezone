@@ -95,6 +95,8 @@ popd
 %endif
 
 %build
+# (tpg) fix build
+sed -i -e "s/ar -rc/ar/g" Makefile*
 
 %make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
 
