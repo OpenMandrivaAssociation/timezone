@@ -146,7 +146,7 @@ fi
 
 %files
 %doc README
-%doc Theory
+%doc theory.html
 %doc tz-link.html
 %{_sbindir}/zdump
 %{_sbindir}/zic
