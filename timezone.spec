@@ -1,5 +1,5 @@
-%define tzdata_version 2017b
-%define tzcode_version 2017b
+%define tzdata_version 2017c
+%define tzcode_version 2017c
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2017b
+Version:	2017c
 Release:	1
 License:	GPL
 Group:		System/Base
