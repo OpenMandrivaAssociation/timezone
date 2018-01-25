@@ -100,8 +100,6 @@ sed -i -e "s/$(AR) -rc/$(AR) r/g" Makefile*
 
 %make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
 
-grep -v tz-art.html tz-link.html > tz-link.html
-
 %if %{build_java}
 pushd javazic
 %{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
@@ -151,7 +149,7 @@ end
 %files
 %doc README
 %doc theory.html
-%doc tz-link.html
+%doc tz-art.html tz-link.html
 %{_sbindir}/zdump
 %{_sbindir}/zic
 %if %{build_manpages}
