@@ -1,5 +1,5 @@
-%define tzdata_version 2017c
-%define tzcode_version 2017c
+%define tzdata_version 2018c
+%define tzcode_version 2018c
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2017c
+Version:	2018c
 Release:	1
 License:	GPL
 Group:		System/Base
@@ -139,10 +139,14 @@ install -m 644 $f.8 %{buildroot}%{_mandir}/man8/
 done
 %endif
 
-%pretrans
-if [ -e %{_datadir}/zoneinfo/posix -a ! -L %{_datadir}/zoneinfo/posix ]; then
-    rm -rf %{_datadir}/zoneinfo/posix
-fi
+%pretrans -p <lua>
+-- (tpg) remove this regular file as it needs to be a symlink
+zone_file = "/usr/share/zoneinfo/posix"
+st = posix.stat(zone_file)
+
+if st and st.type == "regular" then
+    os.remove(zone_file)
+end
 
 %files
 %doc README
