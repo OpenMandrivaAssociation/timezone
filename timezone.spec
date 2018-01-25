@@ -100,7 +100,7 @@ sed -i -e "s/$(AR) -rc/$(AR) r/g" Makefile*
 
 %make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
 
-grep -v tz-art.htm tz-link.htm > tz-link.html
+grep -v tz-art.html tz-link.html > tz-link.html
 
 %if %{build_java}
 pushd javazic
