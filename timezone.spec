@@ -112,7 +112,7 @@ popd
 %endif
 
 %install
-make TOPDIR=%{buildroot}/usr \
+make TOPDIR=%{buildroot} \
      TZDIR=%{buildroot}%{_datadir}/zoneinfo \
      ETCDIR=%{buildroot}%{_sbindir} \
      install
