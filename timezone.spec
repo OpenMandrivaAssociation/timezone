@@ -117,13 +117,16 @@ make TOPDIR=%{buildroot} \
      TZDIR=%{buildroot}%{_datadir}/zoneinfo \
      ETCDIR=%{buildroot}%{_sbindir} \
      install
+
 rm -f %{buildroot}%{_datadir}/zoneinfo-posix
 ln -s . %{buildroot}%{_datadir}/zoneinfo/posix
 mv %{buildroot}%{_datadir}/zoneinfo-leaps %{buildroot}%{_datadir}/zoneinfo/right
+mv %{buildroot}%{_bindir}/zdump %{buildroot}%{_sbindir}/zdump
 
 # nuke unpackaged files
 rm -f %{buildroot}%{_datadir}/zoneinfo/localtime
-rm -f %{buildroot}%{_sbindir}/tzselect
+rm -f %{buildroot}%{_bindir}/tzselect
+rm -f %{buildroot}%{_sysconfdir}/localtime
 rm -rf %{buildroot}/usr/{lib,man}
 
 %if %{build_java}
@@ -154,8 +157,9 @@ end
 %{_sbindir}/zdump
 %{_sbindir}/zic
 %if %{build_manpages}
-%{_mandir}/man8/zdump.8*
-%{_mandir}/man8/zic.8*
+%{_mandir}/man3/*
+%{_mandir}/man5/*
+%{_mandir}/man8/*
 %endif
 %dir %{_datadir}/zoneinfo
 %{_datadir}/zoneinfo/*
