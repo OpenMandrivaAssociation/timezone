@@ -129,6 +129,10 @@ rm -f %{buildroot}%{_bindir}/tzselect
 rm -f %{buildroot}%{_sysconfdir}/localtime
 rm -rf %{buildroot}/usr/{lib,man}
 
+%if !%{build_manpages}
+rm -rf %{buildroot}%{_mandir}
+%endif
+
 %if %{build_java}
 cp -a zoneinfo/java %{buildroot}%{_datadir}/javazi
 %endif
