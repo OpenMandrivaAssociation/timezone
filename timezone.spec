@@ -44,6 +44,7 @@ Summary:	Timezone data for Java
 Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
 BuildRequires:	java-devel
+BuildRequires:	java-rpmbuild
 BuildRequires:	javapackages-tools
 
 %description java
