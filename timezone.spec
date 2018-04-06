@@ -1,5 +1,5 @@
-%define tzdata_version 2017c
-%define tzcode_version 2017c
+%define tzdata_version 2018c
+%define tzcode_version 2018c
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2017c
+Version:	2018c
 Release:	1
 License:	GPL
 Group:		System/Base
@@ -44,6 +44,7 @@ Summary:	Timezone data for Java
 Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
 BuildRequires:	java-devel
+BuildRequires:	java-rpmbuild
 BuildRequires:	javapackages-tools
 
 %description java
@@ -100,8 +101,6 @@ sed -i -e "s/$(AR) -rc/$(AR) r/g" Makefile*
 
 %make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
 
-grep -v tz-art.htm tz-link.htm > tz-link.html
-
 %if %{build_java}
 pushd javazic
 %{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
@@ -114,18 +113,25 @@ popd
 %endif
 
 %install
-make TOPDIR=%{buildroot}/usr \
+make TOPDIR=%{buildroot} \
      TZDIR=%{buildroot}%{_datadir}/zoneinfo \
      ETCDIR=%{buildroot}%{_sbindir} \
      install
+
 rm -f %{buildroot}%{_datadir}/zoneinfo-posix
 ln -s . %{buildroot}%{_datadir}/zoneinfo/posix
 mv %{buildroot}%{_datadir}/zoneinfo-leaps %{buildroot}%{_datadir}/zoneinfo/right
+mv %{buildroot}%{_bindir}/zdump %{buildroot}%{_sbindir}/zdump
 
 # nuke unpackaged files
 rm -f %{buildroot}%{_datadir}/zoneinfo/localtime
-rm -f %{buildroot}%{_sbindir}/tzselect
+rm -f %{buildroot}%{_bindir}/tzselect
+rm -f %{buildroot}%{_sysconfdir}/localtime
 rm -rf %{buildroot}/usr/{lib,man}
+
+%if !%{build_manpages}
+rm -rf %{buildroot}%{_mandir}
+%endif
 
 %if %{build_java}
 cp -a zoneinfo/java %{buildroot}%{_datadir}/javazi
@@ -139,20 +145,25 @@ install -m 644 $f.8 %{buildroot}%{_mandir}/man8/
 done
 %endif
 
-%pretrans
-if [ -e %{_datadir}/zoneinfo/posix -a ! -L %{_datadir}/zoneinfo/posix ]; then
-    rm -rf %{_datadir}/zoneinfo/posix
-fi
+%pretrans -p <lua>
+-- (tpg) remove this regular file as it needs to be a symlink
+zone_file = "/usr/share/zoneinfo/posix"
+st = posix.stat(zone_file)
+
+if st and st.type == "regular" then
+    os.remove(zone_file)
+end
 
 %files
 %doc README
 %doc theory.html
-%doc tz-link.html
+%doc tz-art.html tz-link.html
 %{_sbindir}/zdump
 %{_sbindir}/zic
 %if %{build_manpages}
-%{_mandir}/man8/zdump.8*
-%{_mandir}/man8/zic.8*
+%{_mandir}/man3/*
+%{_mandir}/man5/*
+%{_mandir}/man8/*
 %endif
 %dir %{_datadir}/zoneinfo
 %{_datadir}/zoneinfo/*
