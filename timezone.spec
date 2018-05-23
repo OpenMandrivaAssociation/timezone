@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2018c
+Version:	2018e
 Release:	1
 License:	GPL
 Group:		System/Base
@@ -58,7 +58,7 @@ This package contains timezone information for use by Java runtimes.
 %if %{build_java}
 mkdir javazic
 tar xf %{SOURCE2} -C javazic
-pushd javazic
+cd javazic
 %patch2 -p0 -b .javazic-fixup
 %patch3
 # Hack alert! sun.tools may be defined and installed in the
@@ -72,7 +72,7 @@ for f in `find . -name '*.java'`; do
         sed -i -e 's:sun\.tools\.:rht.tools.:g'\
                -e 's:sun\.util\.:rht.util.:g' $f
 done
-popd
+cd -
 
 # Create zone.info entries for deprecated zone names (#40184)
     chmod +w zone.tab
@@ -102,9 +102,9 @@ sed -i -e "s/$(AR) -rc/$(AR) r/g" Makefile*
 %make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
 
 %if %{build_java}
-pushd javazic
+cd javazic
 %{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
-popd
+cd -
 %{java} -classpath javazic/ rht.tools.javazic.Main -V %{version} \
   -d zoneinfo/java \
   africa antarctica asia australasia europe northamerica pacificnew \
