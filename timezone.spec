@@ -1,5 +1,5 @@
-%define tzdata_version 2018c
-%define tzcode_version 2018c
+%define tzdata_version 2018e
+%define tzcode_version 2018e
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
