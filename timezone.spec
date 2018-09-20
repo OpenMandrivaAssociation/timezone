@@ -14,7 +14,7 @@ Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
 Version:	2018e
-Release:	2
+Release:	3
 License:	GPL
 Group:		System/Base
 URL:		http://www.iana.org/time-zones
