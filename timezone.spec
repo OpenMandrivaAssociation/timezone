@@ -1,5 +1,5 @@
-%define tzdata_version 2018e
-%define tzcode_version 2018e
+%define tzdata_version 2018f
+%define tzcode_version 2018f
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -14,7 +14,7 @@ Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
 Version:	2018e
-Release:	3
+Release:	1
 License:	GPL
 Group:		System/Base
 URL:		http://www.iana.org/time-zones
