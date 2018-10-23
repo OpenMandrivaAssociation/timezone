@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2018e
+Version:	2018f
 Release:	1
 License:	GPL
 Group:		System/Base
