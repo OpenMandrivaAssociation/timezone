@@ -53,14 +53,14 @@ This package contains timezone information for use by Java runtimes.
 
 %prep
 %setup -q -c -a 1
-%autopatch1 -p1 -b .extra-tz-links
+%patch1 -p1 -b .extra-tz-links
 
 %if %{build_java}
 mkdir javazic
 tar xf %{SOURCE2} -C javazic
 cd javazic
-%autopatch2 -p0 -b .javazic-fixup
-%autopatch3
+%patch2 -p0 -b .javazic-fixup
+%patch3
 # Hack alert! sun.tools may be defined and installed in the
 # VM. In order to guarantee that we are using IcedTea/OpenJDK
 # for creating the zoneinfo files, rebase all the packages
