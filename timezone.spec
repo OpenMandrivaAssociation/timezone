@@ -1,5 +1,5 @@
-%define tzdata_version 2018f
-%define tzcode_version 2018f
+%define tzdata_version 2018i
+%define tzcode_version 2018i
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -13,8 +13,8 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2018f
-Release:	2
+Version:	2018i
+Release:	1
 License:	GPL
 Group:		System/Base
 URL:		http://www.iana.org/time-zones
@@ -53,14 +53,14 @@ This package contains timezone information for use by Java runtimes.
 
 %prep
 %setup -q -c -a 1
-%patch1 -p1 -b .extra-tz-links
+%autopatch1 -p1 -b .extra-tz-links
 
 %if %{build_java}
 mkdir javazic
 tar xf %{SOURCE2} -C javazic
 cd javazic
-%patch2 -p0 -b .javazic-fixup
-%patch3
+%autopatch2 -p0 -b .javazic-fixup
+%autopatch3
 # Hack alert! sun.tools may be defined and installed in the
 # VM. In order to guarantee that we are using IcedTea/OpenJDK
 # for creating the zoneinfo files, rebase all the packages
@@ -68,7 +68,7 @@ cd javazic
 # any of the -Xclasspath options, so we must go this route
 # to ensure the greatest compatibility.
 mv sun rht
-for f in `find . -name '*.java'`; do
+for f in $(find . -name '*.java'); do
         sed -i -e 's:sun\.tools\.:rht.tools.:g'\
                -e 's:sun\.util\.:rht.util.:g' $f
 done
@@ -76,20 +76,20 @@ cd -
 
 # Create zone.info entries for deprecated zone names (#40184)
     chmod +w zone.tab
-        echo '# zone info for backward zone names' > zone.tab.new
+        printf '%s\n' '# zone info for backward zone names' > zone.tab.new
         while read link cur old x; do
             case $link-${cur+cur}-${old+old}${x:+X} in
                 Link-cur-old)
                     awk -v cur="$cur" -v old="$old" \
                             '!/^#/ && $3 == cur { sub(cur,old); print }' \
-                                zone.tab || echo ERROR ;;
+                                zone.tab || printf '%s\n' 'ERROR' ;;
                     Link-*)
-                        echo 'Error processing backward entry for zone.tab'
+                        printf '%s\n' 'Error processing backward entry for zone.tab'
                         exit 1 ;;
             esac
         done < backward >> zone.tab.new
         if grep -q '^ERROR' zone.tab.new || ! cat zone.tab.new >> zone.tab; then
-            echo "Error adding backward entries to zone.tab"
+            printf '%s\n' "Error adding backward entries to zone.tab"
             exit 1
         fi
         rm -f zone.tab.new
@@ -99,11 +99,11 @@ cd -
 # (tpg) fix build
 sed -i -e "s/$(AR) -rc/$(AR) r/g" Makefile*
 
-%make TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
+%make_build TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
 
 %if %{build_java}
 cd javazic
-%{javac} -source 1.5 -target 1.5 -classpath . `find . -name \*.java`
+%{javac} -source 1.5 -target 1.5 -classpath . $(find . -name \*.java)
 cd -
 %{java} -classpath javazic/ rht.tools.javazic.Main -V %{version} \
   -d zoneinfo/java \
