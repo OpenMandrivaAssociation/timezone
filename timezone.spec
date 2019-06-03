@@ -14,7 +14,7 @@ Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
 Version:	2019a
-Release:	1
+Release:	2
 License:	GPL
 Group:		System/Base
 URL:		http://www.iana.org/time-zones
@@ -103,7 +103,7 @@ sed -i -e "s/$(AR) -rc/$(AR) r/g" Makefile*
 
 %if %{build_java}
 cd javazic
-%{javac} -source 1.5 -target 1.5 -classpath . $(find . -name \*.java)
+%{javac} -source 8 -target 8 -classpath . $(find . -name \*.java)
 cd -
 %{java} -classpath javazic/ rht.tools.javazic.Main -V %{version} \
   -d zoneinfo/java \
