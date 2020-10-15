@@ -108,7 +108,7 @@ cd -
 %{java} -classpath javazic/ rht.tools.javazic.Main -V %{version} \
   -d zoneinfo/java \
   africa antarctica asia australasia europe northamerica \
-  southamerica backward etcetera systemv \
+  southamerica backward etcetera \
   javazic/tzdata_jdk/gmt javazic/tzdata_jdk/jdk11_backward
 %endif
 
