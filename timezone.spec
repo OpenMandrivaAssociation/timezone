@@ -1,5 +1,5 @@
-%define tzdata_version 2020b
-%define tzcode_version 2020b
+%define tzdata_version 2020c
+%define tzcode_version 2020c
 %bcond_with bootstrap
 
 # the zic(8) and zdump(8) manpages are already in man-pages
@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2020b
+Version:	2020c
 Release:	1
 License:	GPL
 Group:		System/Base
