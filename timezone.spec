@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2020e
+Version:	2020f
 Release:	1
 License:	GPL
 Group:		System/Base
