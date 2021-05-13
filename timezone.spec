@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2020f
+Version:	2021a
 Release:	1
 License:	GPL
 Group:		System/Base
@@ -69,8 +69,8 @@ cd javazic
 # to ensure the greatest compatibility.
 mv sun rht
 for f in $(find . -name '*.java'); do
-        sed -i -e 's:sun\.tools\.:rht.tools.:g'\
-               -e 's:sun\.util\.:rht.util.:g' $f
+    sed -i -e 's:sun\.tools\.:rht.tools.:g'\
+	-e 's:sun\.util\.:rht.util.:g' $f
 done
 cd -
 
