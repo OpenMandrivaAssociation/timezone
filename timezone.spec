@@ -13,13 +13,13 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2021a
+Version:	2022a
 Release:	1
 License:	GPL
 Group:		System/Base
 URL:		http://www.iana.org/time-zones
-Source0:	ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
-Source1:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_version}.tar.gz
+Source0:	https://data.iana.org/time-zones/releases/tzdata%{tzdata_version}.tar.gz
+Source1:	https://data.iana.org/time-zones/releases/tzcode%{tzcode_version}.tar.gz
 Source2:	javazic.tar.gz
 Patch1:		tzdata-extra-tz-links.patch
 Patch2:		javazic-fixup.patch
@@ -99,29 +99,31 @@ cd -
 # (tpg) fix build
 sed -i -e "s/$(AR) -rc/$(AR) r/g" Makefile*
 
-%make_build TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc}
+%make_build TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc} ZICDIR=%{_bindir}
 
 %if %{build_java}
 cd javazic
 %{javac} -source 8 -target 8 -classpath . $(find . -name \*.java)
 cd -
 %{java} -classpath javazic/ rht.tools.javazic.Main -V %{version} \
-  -d zoneinfo/java \
-  africa antarctica asia australasia europe northamerica \
-  southamerica backward etcetera \
-  javazic/tzdata_jdk/gmt javazic/tzdata_jdk/jdk11_backward
+	-d zoneinfo/java \
+	africa antarctica asia australasia europe northamerica \
+	southamerica backward etcetera \
+	javazic/tzdata_jdk/gmt javazic/tzdata_jdk/jdk11_backward
 %endif
 
 %install
-make TOPDIR=%{buildroot} \
-     TZDIR=%{buildroot}%{_datadir}/zoneinfo \
-     ETCDIR=%{buildroot}%{_sbindir} \
-     install
+make	TOPDIR=%{buildroot} \
+	TZDIR=%{buildroot}%{_datadir}/zoneinfo \
+	ETCDIR=%{buildroot}%{_sbindir} \
+	ZICDIR=%{buildroot}%{_bindir} \
+	install
 
 rm -f %{buildroot}%{_datadir}/zoneinfo-posix
 ln -s . %{buildroot}%{_datadir}/zoneinfo/posix
 mv %{buildroot}%{_datadir}/zoneinfo-leaps %{buildroot}%{_datadir}/zoneinfo/right
-mv %{buildroot}%{_bindir}/zdump %{buildroot}%{_sbindir}/zdump
+# Don't conflict with glibc
+mv %{buildroot}%{_bindir}/zdump %{buildroot}%{_sbindir}/zdump-iana
 
 # nuke unpackaged files
 rm -f %{buildroot}%{_datadir}/zoneinfo/localtime
@@ -158,7 +160,7 @@ end
 %doc README
 %doc theory.html
 %doc tz-art.html tz-link.html
-%{_sbindir}/zdump
+%{_sbindir}/zdump-iana
 %{_sbindir}/zic
 %if %{build_manpages}
 %{_mandir}/man3/*
