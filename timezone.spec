@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2022a
+Version:	2022g
 Release:	1
 License:	GPL
 Group:		System/Base
@@ -163,9 +163,9 @@ end
 %{_sbindir}/zdump-iana
 %{_sbindir}/zic
 %if %{build_manpages}
-%{_mandir}/man3/*
-%{_mandir}/man5/*
-%{_mandir}/man8/*
+%doc %{_mandir}/man3/*
+%doc %{_mandir}/man5/*
+%doc %{_mandir}/man8/*
 %endif
 %dir %{_datadir}/zoneinfo
 %{_datadir}/zoneinfo/*
