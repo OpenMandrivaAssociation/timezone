@@ -1,9 +1,9 @@
 --- tzdata2011f/backward.orig	2010-12-16 19:24:20.000000000 +0200
 +++ tzdata2011f/backward	2011-04-20 21:25:42.831684574 +0200
-@@ -116,3 +116,18 @@
- Link	Etc/UTC			Universal
- Link	Europe/Moscow		W-SU
- Link	Etc/UTC			Zulu
+@@ -315,3 +315,16 @@
+ Link	Asia/Nicosia		Europe/Nicosia
+ Link	Pacific/Guadalcanal	Pacific/Ponape	#= Pacific/Pohnpei
+ Link	Pacific/Port_Moresby	Pacific/Truk	#= Pacific/Chuuk
 +
 +# links requested by users (to access timezones by the name of main cities)
 +# pablo@mandriva.com
@@ -13,8 +13,6 @@
 +Link	America/Edmonton	America/Calgary
 +# Canada/Atlantic (New Brunswick)
 +Link	America/Halifax		America/Fredericton
-+# America/Eastern (Ontario)
-+Link	America/Montreal	America/Ontario
 +# PRC
 +Link	Asia/Shanghai		Asia/Beijing
 +# South Africa

@@ -13,8 +13,8 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2022g
-Release:	2
+Version:	2023c
+Release:	1
 License:	GPL
 Group:		System/Base
 URL:		http://www.iana.org/time-zones
@@ -79,7 +79,7 @@ cd -
         printf '%s\n' '# zone info for backward zone names' > zone.tab.new
         while read link cur old x; do
             case $link-${cur+cur}-${old+old}${x:+X} in
-                Link-cur-old)
+                Link-cur-old*)
                     awk -v cur="$cur" -v old="$old" \
                             '!/^#/ && $3 == cur { sub(cur,old); print }' \
                                 zone.tab || printf '%s\n' 'ERROR' ;;
@@ -94,6 +94,9 @@ cd -
         fi
         rm -f zone.tab.new
 %endif
+
+# build fat timezone info
+sed -i -e 's/\(^ZFLAGS=\).*/\1-b fat/' Makefile
 
 %build
 # (tpg) fix build
@@ -115,8 +118,10 @@ cd -
 %install
 make	TOPDIR=%{buildroot} \
 	TZDIR=%{buildroot}%{_datadir}/zoneinfo \
+	CFLAGS="%{optflags} -std=gnu99" LFLAGS="%{build_ldflags}" \
 	ETCDIR=%{buildroot}%{_sbindir} \
 	ZICDIR=%{buildroot}%{_bindir} \
+	VERSION=%{version} \
 	install
 
 rm -f %{buildroot}%{_datadir}/zoneinfo-posix
