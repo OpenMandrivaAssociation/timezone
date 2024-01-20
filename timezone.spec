@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		8
-Version:	2023c
+Version:	2023d
 Release:	1
 License:	GPL
 Group:		System/Base
@@ -102,7 +102,14 @@ sed -i -e 's/\(^ZFLAGS=\).*/\1-b fat/' Makefile
 # (tpg) fix build
 sed -i -e "s/$(AR) -rc/$(AR) r/g" Makefile*
 
-%make_build TZDIR=%{_datadir}/zoneinfo CFLAGS="%{optflags} -std=gnu99" CC=%{__cc} ZICDIR=%{_bindir}
+%make_build \
+	TZDIR=%{_datadir}/zoneinfo \
+	CFLAGS="%{optflags} -std=gnu99" \
+	CC="%{__cc}" \
+%if %{cross_compiling}
+	zic=%{_bindir}/zic \
+%endif
+	ZICDIR=%{_bindir}
 
 %if %{build_java}
 cd javazic
@@ -120,6 +127,9 @@ make	TOPDIR=%{buildroot} \
 	TZDIR=%{buildroot}%{_datadir}/zoneinfo \
 	CFLAGS="%{optflags} -std=gnu99" LFLAGS="%{build_ldflags}" \
 	ETCDIR=%{buildroot}%{_sbindir} \
+%if %{cross_compiling}
+	zic=%{_bindir}/zic \
+%endif
 	ZICDIR=%{buildroot}%{_bindir} \
 	VERSION=%{version} \
 	install
