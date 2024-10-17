@@ -17,7 +17,7 @@ Version:	2023d
 Release:	1
 License:	GPL
 Group:		System/Base
-URL:		http://www.iana.org/time-zones
+URL:		https://www.iana.org/time-zones
 Source0:	https://data.iana.org/time-zones/releases/tzdata%{tzdata_version}.tar.gz
 Source1:	https://data.iana.org/time-zones/releases/tzcode%{tzcode_version}.tar.gz
 Source2:	javazic.tar.gz
