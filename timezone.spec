@@ -29,6 +29,7 @@ Provides:	tzdata-java = %{version}-%{release}
 %endif
 Provides:	tzdata = %{version}-%{release}
 Conflicts:	%{name} < 6:2013f-1
+BuildRequires:	make
 BuildRequires:	gawk
 BuildRequires:	perl
 Provides:	tzdata = %{EVRD}
