@@ -1,14 +1,13 @@
---- tzdata2011f/backward.orig	2010-12-16 19:24:20.000000000 +0200
-+++ tzdata2011f/backward	2011-04-20 21:25:42.831684574 +0200
-@@ -315,3 +315,16 @@
- Link	Asia/Nicosia		Europe/Nicosia
+diff -up timezone-2026a/backward.extra-tz-links timezone-2026a/backward
+--- timezone-2026a/backward.extra-tz-links	2024-07-03 12:17:49.000000000 +0200
++++ timezone-2026a/backward	2026-03-02 22:14:29.325471866 +0100
+@@ -329,3 +329,18 @@ Link	Pacific/Honolulu	HST
+ Link	America/Los_Angeles	PST8PDT
  Link	Pacific/Guadalcanal	Pacific/Ponape	#= Pacific/Pohnpei
  Link	Pacific/Port_Moresby	Pacific/Truk	#= Pacific/Chuuk
-+
 +# links requested by users (to access timezones by the name of main cities)
-+# pablo@mandriva.com
 +# Canada/Saskatchewan 
-+Link	America/Regina	America/Saskatoon
++Link	America/Regina		America/Saskatoon
 +# Canada/Mountain (Alberta)
 +Link	America/Edmonton	America/Calgary
 +# Canada/Atlantic (New Brunswick)
@@ -17,3 +16,7 @@
 +Link	Asia/Shanghai		Asia/Beijing
 +# South Africa
 +Link	Africa/Johannesburg	Africa/Pretoria
++# Switzerland
++Link	Europe/Zurich		Europe/Berne
++# And a little easter egg...
++Link	Europe/Zurich		Europe/Unterschaechen

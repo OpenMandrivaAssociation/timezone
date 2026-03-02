@@ -12,8 +12,8 @@
 
 Summary:	Time Zone Database
 Name:		timezone
-Epoch:		8
-Version:	2023d
+Epoch:		1
+Version:	2026a
 Release:	1
 License:	GPL
 Group:		System/Base
@@ -45,7 +45,6 @@ Summary:	Timezone data for Java
 Group:		System/Base
 Provides:	tzdata-java = %{version}-%{release}
 BuildRequires:	java-devel
-BuildRequires:	java-rpmbuild
 BuildRequires:	javapackages-tools
 
 %description java
@@ -54,14 +53,14 @@ This package contains timezone information for use by Java runtimes.
 
 %prep
 %setup -q -c -a 1
-%patch1 -p1 -b .extra-tz-links
+%patch 1 -p1 -b .extra-tz-links
 
 %if %{build_java}
 mkdir javazic
 tar xf %{SOURCE2} -C javazic
 cd javazic
-%patch2 -p0 -b .javazic-fixup
-%patch3
+%patch 2 -p0 -b .javazic-fixup
+%patch 3
 # Hack alert! sun.tools may be defined and installed in the
 # VM. In order to guarantee that we are using IcedTea/OpenJDK
 # for creating the zoneinfo files, rebase all the packages
@@ -137,7 +136,6 @@ make	TOPDIR=%{buildroot} \
 
 rm -f %{buildroot}%{_datadir}/zoneinfo-posix
 ln -s . %{buildroot}%{_datadir}/zoneinfo/posix
-mv %{buildroot}%{_datadir}/zoneinfo-leaps %{buildroot}%{_datadir}/zoneinfo/right
 # Don't conflict with glibc
 mv %{buildroot}%{_bindir}/zdump %{buildroot}%{_sbindir}/zdump-iana
 
