@@ -1,12 +1,11 @@
-diff -up timezone-2026a/backward.extra-tz-links timezone-2026a/backward
---- timezone-2026a/backward.extra-tz-links	2024-07-03 12:17:49.000000000 +0200
-+++ timezone-2026a/backward	2026-03-02 22:14:29.325471866 +0100
-@@ -329,3 +329,18 @@ Link	Pacific/Honolulu	HST
- Link	America/Los_Angeles	PST8PDT
- Link	Pacific/Guadalcanal	Pacific/Ponape	#= Pacific/Pohnpei
- Link	Pacific/Port_Moresby	Pacific/Truk	#= Pacific/Chuuk
+--- timezone-2026d/backward.extra-tz-links
++++ timezone-2026d/backward
+@@ -373,3 +373,18 @@ Zone	PST8PDT		 -8:00	USback	P%sT
+ Zone	MST7MDT		 -7:00	USback	M%sT
+ Zone	CST6CDT		 -6:00	USback	C%sT
+ Zone	EST5EDT		 -5:00	USback	E%sT
 +# links requested by users (to access timezones by the name of main cities)
-+# Canada/Saskatchewan 
++# Canada/Saskatchewan
 +Link	America/Regina		America/Saskatoon
 +# Canada/Mountain (Alberta)
 +Link	America/Edmonton	America/Calgary

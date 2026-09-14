@@ -13,7 +13,7 @@
 Summary:	Time Zone Database
 Name:		timezone
 Epoch:		1
-Version:	2026a
+Version:	2026d
 Release:	1
 License:	GPL
 Group:		System/Base
