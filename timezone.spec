@@ -12,7 +12,7 @@
 
 Summary:	Time Zone Database
 Name:		timezone
-Version:	2026d
+Version:	2026f
 Release:	1
 License:	GPL
 Group:		System/Base
